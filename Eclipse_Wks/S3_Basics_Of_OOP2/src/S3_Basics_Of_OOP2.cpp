@@ -214,7 +214,7 @@ int main() {
 	std::cout<<"starting...\n";
 	/*******************************************************************************/
 	/*******************************************************************************/
-	//Example1 to explain this pointer:
+	//1. Example1 to explain this pointer:
 
 	//Before and after function call, context switching occurs.
 	//Assembly of the next line is:
@@ -243,28 +243,30 @@ int main() {
 	DummyObj1.sum(0x11, 0x22);
 	/*******************************************************************************/
 	/*******************************************************************************/
-	//How can we achieve this function call? "Call chaining using -> operator"
+	//2. How can we achieve this function call? "Call chaining using -> operator"
+	//	object.add()->subtract()->multiply();
 	Dummy2 Dummy2Obj1(1,2);
 	Dummy2Obj1.add()->subtract()->multiply();
 	std::cout<<Dummy2Obj1.getAccumulator()<<"\n";
 	//How can we achieve this function call? "Call chaining using . operator"
+	//object.performAdd().performMultiply().performSubtract();
 	Dummy3 Dummy3Obj1(1,2);
 	Dummy3Obj1.add().subtract().multiply();
 	std::cout<<Dummy3Obj1.getAccumulator()<<"\n";
 	/*******************************************************************************/
 	/*******************************************************************************/\
-	//To assure that the size of object of a class is the size of its data members
+	//3. To assure that the size of object of a class is the size of its data members
 	Dummy4 Dummy4Obj1;		//Size of this object is 8 bytes (in stack for its 2 datamembers)
 	/*******************************************************************************/
 	/*******************************************************************************/
-	//Example to explain padding in calsses as in structures to make memory aligned
+	//4. Padding in calsses as in structures to make memory aligned
 	Dummy5 Dummy5Obj1;		//Size of this object is 16 bytes = 4 [firstEmpty], + 4 [padding]
 	// + 8 [arr].
 	// Padding is made to make data aligned in memory.
 
 	/*******************************************************************************/
 	/*******************************************************************************/
-	//Example to explain static members, and how all objects see its memory location
+	//5. Static members, and how all objects see its memory location
 	Dummy6 *Dummy6Obj1 = new Dummy6();
 	Dummy6Obj1->getCount();
 	Dummy6Obj1->getCount();
