@@ -82,6 +82,30 @@ public:
 	}
 
 	//I must define the copy constructor in this way (const and pass by reference) ; cuz the compiler define it in the same way
+	//The compiler can perform copy elision by implementing Return Value Optimization (RVO)
+	// When is the copy constructor called?
+	//	- When an object of the class is returned by value.
+	//	- When an object of the class is passed (to a function) by value as an argument
+	//	- When an object is constructed based on another object of the same class
+	//	- When the compiler generates a temporary object
+	/*
+	 	// Without RVO
+		std::string f() {
+		  std::string s = "Hello";
+		  return s; // copy s to a temporary object
+		}
+
+		std::string t = f(); // copy the temporary object to t
+
+		// With RVO
+		std::string f() {
+		  std::string s = "Hello";
+		  return s; // no copy, s is constructed directly into the storage of the return value
+		}
+
+		std::string t = f(); // no copy, t is initialized from the return value
+
+	 */
 	MyString(const MyString &other):
 		size(other.size),
 		literals(new char[size + 1])
