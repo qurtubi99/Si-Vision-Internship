@@ -151,6 +151,12 @@ public:
 		cout<<"Parametrized constructor in Dummy class.\n";
 		x = xInput;
 	}
+
+	//To auto generate setters and getters:
+	//>> right click on class name > source >  Generate stters and getters
+	int getX() const {
+		return x;
+	}
 };
 
 /****************************************************************************************************************************************/
@@ -302,18 +308,21 @@ int main() {
 
 	/****************************************************************************************************************************************/
 	//3. Parametrized constructor with initial value:
-	Dummy dummyObj(10);			//If I haven't sent 10 to initialize x, initial value (15) in parametrized constructor will be taken
+	std::cout<<"3. Parametrized constructor with initial value: \n";
+	Dummy dummyObj(10);					//If I haven't sent 10 to initialize x, initial value (15) in parametrized constructor will be taken
+	std::cout<<dummyObj.getX()<<"\n";
 
 	/****************************************************************************************************************************************/
 	//4. Initializer list with constructors:
+	std::cout<<"4. Initializer list with constructors: \n";
 	Employee employeeObj(0);
 
 	//1st jump to Employee(int id)
 	//2nd create data members of employeeObj, which will jump to MyString() (Default constructor)
-	//3rd start code of Employee(int id) "Default constructor", and when we say myStringObj = "Ahmed"; it will jump to
+	//3rd start code of Employee(int id) "Prametrized constructor", and when we say myStringObj = "Ahmed"; it will jump to
 	// MyString(const char *inputLiterals) which is the parametrized constructor.
 
-	//In the previous, I need to call the parametrized constructor only (not default >> parametrized), so I will use member initializer list
+	//In the previous, I need to call the parametrized constructor of MyString only (not default >> parametrized), so I will use member initializer list
 	/* This is how the Employee constructor should be defined:
 	 * Employee(int id): myStringObj(id == 1? "Ahmed" : "Mohamed") {}
 	 */
