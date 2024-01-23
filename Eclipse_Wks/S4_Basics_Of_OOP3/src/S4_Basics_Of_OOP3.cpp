@@ -9,8 +9,7 @@
 #include <iostream>
 #include <string.h>
 
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //1. Function overloading:
 //- Allows the creation of multiple functions with the same name, so long as they have different parameters.
 //- Rules:
@@ -27,8 +26,7 @@ int addOperands(int num1, int num2) {
 std::string addOperands(std::string str1, std::string str2) {
 	return str1 + "---" + str2;
 }
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //2. How the c++ deals with function overloading?
 //	1. C++ tries to find an exact match. This is the case where  the actual argument exactly matches the parameter
 //		type of one of the overloaded functions.
@@ -61,41 +59,14 @@ enum Dummy {
 	SECOND
 };
 //	4. If no matches are found, C++ tries to find a match through user-defined conversion
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //3. How the compiler deals with function overloading and diffrentiate between functions with same name?
 //	 (Name Mangling – Under the hood)
 //	- Name mangling "modification" is the encoding of function and variable names into unique names so that linkers can separate common names in the language.
 //	- All function names, either overloaded or not, are changed by the compiler.
 //	- Name mangling is not limited to functions. It is done for classes and structures as well.
 //	- Compilers use the arguments’ types to generate a unique name for each function.
-/*******************************************************************************/
-/*******************************************************************************/
-/*4. Will this code compile?
- * 	1. 5.5 and 4.5 are double, hence 2 functions will match both availiable numeric types (int and float) -> error
-  		- Solution is to make static casting: addOperands(static_cast<float>5.5, static_cast<float>4.5);
-   	int addOperands(int x, int y) {
-		return x+y;
-	}
-	float addOperands(float x, float y) {
-		return x+y;
-	}
-	addOperands(5.5, 4.5);
-
-	2. x here is r-value, hence can be passed to int x or int &x hence error
-		void func(int x) {}
-		void func(int& y) {}
-		int x = 10;
-		func(x);
-	3. 1 is l-value, hence it can only be passed to int x -> yes will compile
-		void func(int x) {}
-		void func(int& y) {}
-		func(1);
-
-
- */
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //5. Operator overloading: using operators with objects instead of using setters ang getters:
 //	- Compiler has built-in functions are available for primitive types only
 //	- int z = x + y; -> compiler replace it with int z = operator+(x,y);
@@ -178,14 +149,13 @@ public:
 	//- Deallocate object from memory location
 	//- called when stack-allocated objects go out of scope & when delete is called on heap-allocated objects.
 	~MyString(){
-		std::cout << "Destructor of MyString is called\n";
+		std::cout << "Destructor of MyString is called\n\n";
 		//Make cleanup operations (data | logic)
 		delete []literals;			//De-allocate the used heap locations throughout the object lifetime
 		size = 0;
 	}
 
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//5. Operator overloading: using operators with objects instead of using setters ang getters:
 	//Since this pointer is sent by default upon this funciton call from main, hence #of parameters are 2
 	MyString operator+(const MyString &other){
@@ -202,8 +172,7 @@ public:
 		return newObject;	//Here I return object by value, hence copy constructor will be called if ROV disabled
 		//Here the newObject destructor must be called
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//6. Another example on operator overloading:
 	MyString operator+(const uint8_t &age){
 		std::cout<<"operator+ of MyString is called\n";
@@ -218,18 +187,15 @@ public:
 		std::cout<<"Copy & dectructor of newObject will be called\n";
 		return newObject;
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//10. Input/Output Operators Overloading
 	friend std::ostream& operator<<(std::ostream &out,const MyString &other);
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 
 };
 
 
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //7. Overloading operators for operands of different types: Database and Dummy2 classes
 class Dummy1;
 class Dummy2;
@@ -238,20 +204,26 @@ class Dummy1{
 private:
 	int num=20;
 	friend operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
+	~Dummy1(){
+		std::cout << "Destructor of Dummy1 is called\n\n";
+	}
 };
 
 class Dummy2{
 private:
 	int num=40;
 	friend operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
+public:
+	~Dummy2(){
+		std::cout << "Destructor of Dummy2 is called\n\n";
+	}
 };
 
 int operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1){
 	return Dummy1Obj1.num + Dummy2Obj1.num;
 }
 
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //8. Empty arithmetic operators:
 //	- zero arguments means I will change the sign of one of the data members.
 //	- cout << -Dummy() << +Dummy(); here compiler will create temporary object, change its sign and print it, then destroy it.
@@ -270,9 +242,11 @@ public:
 	int operator+() {
 		return +num;
 	}
+	~Dummy3(){
+		std::cout << "Destructor of Dummy3 is called\n\n";
+	}
 };
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //9. Will this code compil?:
 class Container2;
 class Container1 {
@@ -309,8 +283,7 @@ int operator+(const Container1& c1,
 //main(){
 //string str = Dummy1() + "test";
 //int number = Dummy1() + 20;}
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //10. Input/Output Operators Overloading
 //[Example 1]
 std::ostream& operator<<(std::ostream &out,const MyString &other){
@@ -340,39 +313,41 @@ public:
 	}
 };
 
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 
 
 
 int main() {
-	/*******************************************************************************/
-	/*******************************************************************************/
-	//1. Function overloading
-	std::cout << addOperands(10,10) << std::endl;
-	std::cout << addOperands("First","Second") << std::endl;
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
+	//1. Function overloading:
+	{
+		std::cout<< "1. Function overloading: \n";
+		std::cout << addOperands(10,10) << std::endl;
+		std::cout << addOperands("First","Second") << std::endl;
+	}
+	/****************************************************************************************************************************************/
 	//2. How the c++ deals with function overloading?
-	//	1. C++ tries to find an exact match. This is the case where  the actual argument exactly matches the parameter
-	//		type of one of the overloaded functions.
-	print(0);	 //0 exactly match int
-	//	2. If no exact match is found, C++ tries to find a match through promotion (Implicit Casting).
-	//		Char, unsigned char and short -> int
-	//		Unsigned short				  -> int or unsigned
-	//		Float 						  -> double
-	//		Enum 						  -> int
-	print2('a'); //Char->int after implicit casting by the compiler
-	//	3. If no promotion is possible, C++ tries to find a match through standard conversion.
-	//		Any numeric type will match any other numeric type
-	//		Enum will match any numeric type.
-	//		Zero will match a pointer type and numeric type (e.g. 0 to char*, or 0 to float)
-	//		A pointer will match a void pointer.
-	print3(10.5f);
-	print3(FIRST);
-	//	4. If no matches are found, C++ tries to find a match through user-defined conversion
-	/*******************************************************************************/
-	/*******************************************************************************/
+	{
+		std::cout<< "How the c++ deals with function overloading?: \n";
+		//	1. C++ tries to find an exact match. This is the case where  the actual argument exactly matches the parameter
+		//		type of one of the overloaded functions.
+		print(0);	 //0 exactly match int
+		//	2. If no exact match is found, C++ tries to find a match through promotion (Implicit Casting).
+		//		Char, unsigned char and short -> int
+		//		Unsigned short				  -> int or unsigned
+		//		Float 						  -> double
+		//		Enum 						  -> int
+		print2('a'); //Char->int after implicit casting by the compiler
+		//	3. If no promotion is possible, C++ tries to find a match through standard conversion.
+		//		Any numeric type will match any other numeric type
+		//		Enum will match any numeric type.
+		//		Zero will match a pointer type and numeric type (e.g. 0 to char*, or 0 to float)
+		//		A pointer will match a void pointer.
+		print3(10.5f);
+		print3(FIRST);
+		//	4. If no matches are found, C++ tries to find a match through user-defined conversion
+	}
+	/****************************************************************************************************************************************/
 	//3. How the compiler deals with function overloading and diffrentiate between functions with same name?
 	//	- To see the symbols (name/ID given by the compiler to each function, variable, ) in object file,  type the following in ubunto terminal/cmd:
 	//		$ nm S4_Basics_Of_OOP3.o | grep print
@@ -380,16 +355,42 @@ int main() {
 	//		|	 -> will pass o/p of the 1st command (nm S4_Basics_Of_OOP3.o) to 2nd one (grep print).
 	//		grep -> used to find all symbols with name print
 	/*	O/p of the previous instruction:
-	 	000000000000008d T _Z5printPc
-		00000000000000df T _Z5printi
-		0000000000000129 T _Z6print2Pc
-		000000000000017b T _Z6print2i
-		00000000000001c5 T _Z6print3Pc
-		0000000000000217 T _Z6print3i
-		The compiler added _z# and (i or Pc) to original symbol name to diffrentiate between names of overloaded functions.
+			000000000000008d T _Z5printPc
+			00000000000000df T _Z5printi
+			0000000000000129 T _Z6print2Pc
+			000000000000017b T _Z6print2i
+			00000000000001c5 T _Z6print3Pc
+			0000000000000217 T _Z6print3i
+			The compiler added _z# and (i or Pc) to original symbol name to diffrentiate between names of overloaded functions.
 	 */
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
+	/*4. Will this code compile?
+	 * 	1. 5.5 and 4.5 are double, hence 2 functions will match both availiable numeric types (int and float) -> error
+	  		- Solution is to make static casting: addOperands(static_cast<float>5.5, static_cast<float>4.5);
+				int addOperands(int x, int y) {
+					return x+y;
+				}
+				float addOperands(float x, float y) {
+					return x+y;
+				}
+				In main:
+				addOperands(5.5, 4.5);
+
+		2. x here is r-value, hence can be passed to int x or int &x hence error
+				void func(int x) {}
+				void func(int& y) {}
+				In main:
+				int x = 10;
+				func(x);
+		3. 1 is l-value, hence it can only be passed to int x -> yes will compile
+				void func(int x) {}
+				void func(int& y) {}
+				In main:
+				func(1);
+
+
+	 */
+	/****************************************************************************************************************************************/
 	//5. Operator overloading: using operators with objects instead of using setters ang getters:
 	{
 		std::cout<<"5. Operator overloading: using operators with objects: \n";
@@ -401,8 +402,7 @@ int main() {
 	}
 	//To disable ROV optimization Right-click on project > select Properties > Go to C/C++ Build > Settings > Tool Settings > GCC C++ Compiler > Miscellaneous (or Clang C++ Compiler if you are using Clang).
 	//	>In the Other flags field, add -fno-elide-constructors at the end of the existing flags
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//6. Another example on operator overloading:
 	{
 		std::cout<<"6. Another example on operator overloading: \n";
@@ -411,8 +411,7 @@ int main() {
 		MyString combined = name + age; 	//>>name.operator+(age); Here 97 is the askii of a
 		combined.print();
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//7. Overloading operators for operands of different types: Database and Dummy2 classes
 	{
 		std::cout<<"7. Overloading operators for operands of different types: \n";
@@ -421,15 +420,13 @@ int main() {
 		std::cout<<Dummy1Obj1+Dummy2Obj1<<"\n";
 
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//8. Empty arithmetic operators:
 	{
 		std::cout<<"8. Empty arithmetic operators: \n";
 		std::cout<<-Dummy3()<<"\n"<<+Dummy3()<<"\n";
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//9. Will this code compil?:
 	{
 		std::cout<<"9. Will this code compil?: \n";
@@ -439,8 +436,7 @@ int main() {
 		std::cout<<Container1() + Container2()<<"\n";
 		std::cout<<200 + Container2()<<"\n";
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//10. Input/Output Operators Overloading
 	/*
 	 * Here the compiler will do the following:
@@ -462,8 +458,7 @@ int main() {
 		list << list << list2 ;
 		std::cout<<"\n";
 	}
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	return 0;
 }
 
