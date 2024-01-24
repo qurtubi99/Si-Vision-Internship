@@ -15,7 +15,7 @@
 	1. This pointer
 	2. Static members (static memeber variables & static member functions)
 	3. Friends (Friend function & Friend Classes)
-#### Session ###Session 4: "Overloading Basics and Operators Overloading"
+### Session 4: "Overloading Basics and Operators Overloading"
 #### S4 Outline:
 	1. Overloading basics
 	2. Arithmetic Operator Overloading
