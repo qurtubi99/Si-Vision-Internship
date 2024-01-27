@@ -28,9 +28,9 @@
 3. Static casting:[case1 impilicit upward casting by the compiler]
 4. Static casting:[case2 expilicit upward]
 5. Static casting [case3 expilicit downward]
-6.1 Tricky question[1]
-6.2 Tricky question[2]
-6.3 Tricky question[3]
+6 Tricky question[1]
+6 Tricky question[2]
+6 Tricky question[3]
 7. Virtual function: repeat example in [5] to illustrate what virtual has solved
 
 
