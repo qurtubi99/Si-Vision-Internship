@@ -22,6 +22,19 @@
 6. Overloading the Subscript Operator
 7. Assignment Operator
 8. The Rule of Three
+### Session 6: "Inheritance and polymorphism"
+1. Changing an inherited member’s access level by [using] keyword
+2. Multiple inheritance (child inherit from 2 parents or more) [not preferred due to Diamod problem]
+3. Static casting:[case1 impilicit upward casting by the compiler]
+4. Static casting:[case2 expilicit upward]
+5. Static casting [case3 expilicit downward]
+6.1 Tricky question[1]
+6.2 Tricky question[2]
+6.3 Tricky question[3]
+7. Virtual function: repeat example in [5] to illustrate what virtual has solved
+
+
+
 
 
 
