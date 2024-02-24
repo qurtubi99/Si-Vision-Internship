@@ -11,6 +11,8 @@
 
 /****************************************************************************************************************************************/
 //1. Changing an inherited member’s access level by [using] keyword
+//	 What is the problem solved by using keyword?
+//	 ....
 class Base {
 protected:
 	void print() {
@@ -175,7 +177,7 @@ public:
 	//- copy constructor takes MyString object by reference
 	//- If I didn't delegate any of MyString constructors, hence compiler will call default one
 	//- Copy constructor of MyString takes MyString object, but I passed to it MyStringImproved object
-	//	so the compiler made impilcit upward casting (child > parent) from MyStringImproved to MyString
+	//	so the compiler made implicit upward casting (child > parent) from MyStringImproved to MyString
 	//	cuz child is a parent [after inheritance].
 	//- Downward casting (parent > child)
 	MyStringImproved(const MyStringImproved &other) : MyString(other),ptr(new int){
@@ -192,7 +194,7 @@ public:
 
 };
 /****************************************************************************************************************************************/
-//4. Static casting:[case2 expilicit upward]
+//4. Static casting:[case2 explicit upward]
 class Parent3{
 private:
 	int parentNum;
@@ -225,7 +227,7 @@ public:
 	}
 };
 /****************************************************************************************************************************************/
-//5. Static casting [case3 expilicit downward]:
+//5. Static casting [case3 explicit downward]:
 enum ClassId{	//enum ClassId [In c]== enum class ClassId [In cpp], but in cpp, I wil have to say ClassId::e_Class11 instead of Class11
 	e_Class11,
 	e_Class22
@@ -278,7 +280,7 @@ public:
 
 class Container1{
 private:
-	//Since Class11 is a Base11 class, and Class22 is a Base11 class, hence I can point to it usint ptr to Base11.
+	//Since Class11 is a Base11 class, and Class22 is a Base11 class, hence I can point to it using ptr to Base11.
 	// this is one of the use cases of inheritance.
 	Base11 **ptrToObjectAddress;
 	int size;
@@ -457,12 +459,12 @@ int main() {
 
 		child1Obj1.print();
 		child2Obj1.print();
-		//Deallocation of child2Obj1 >> Destructor of child2 > child1 > base
 		//Deallocation of child1Obj1 >> Destructor of child1 > base
+		//Deallocation of child2Obj1 >> Destructor of child2 > child1 > base
 	}
 	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//2. Multiple inheritance (child inherit from 2 parents or more) [not preferred]
+	//2. Multiple inheritance (child inherit from 2 parents or more) [not preferred due to Diamod problem]
 	{
 		std::cout << "2. Multiple inheritance (child inherit from 2 parents or more) [not preferred]: \n";
 		Child childObj1;
@@ -470,7 +472,7 @@ int main() {
 	}
 	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//3. Static casting [case1 impilicit upward casting by the compiler]:
+	//3. Static casting:[case1 impilicit upward casting by the compiler]
 	{
 		std::cout << "3. Static casting [case1 impilicit upward casting by the compiler]: \n";
 		MyString myStringObj1("Ali Nasr");
@@ -480,7 +482,7 @@ int main() {
 	}
 	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//4. Static casting [case2 expilicit upward]:
+	//4. Static casting:[case2 explicit upward]
 	{
 		std::cout << "4. Static casting [case2 expilicit upward]: \n";
 		Child3 child3Obj1;
@@ -499,7 +501,7 @@ int main() {
 	}
 	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//5. Static casting [case3 expilicit downward]:
+	//5. Static casting [case3 explicit downward]:
 	{
 		/*****************************Better method**************************/
 		std::cout << "5. Static casting [case3 expilicit downward]: \n";
@@ -531,7 +533,7 @@ int main() {
 		//How to force it to print Base62?
 		//Method1 using explicity upward casting
 		std::cout << static_cast<Base62>(c62).getName() << "\n";
-		//Method2 usgin scope resolution operator
+		//Method2 using scope resolution operator
 		std::cout << (c62).Base62::getName() << "\n\n";
 
 		//6. Tricky question[3]:
