@@ -18,11 +18,7 @@
 #include "../Class/inc/Dummy15.h"
 #include "../Class/inc/Dummy16.h"
 
-
-
-
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //1. Example1 to explain this pointer:
 class Dummy{
 private:
@@ -59,8 +55,7 @@ int sum(int x, int y){
 	return x+y;
 }
 Dummy *ptr2DummyObj1 = nullptr;
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //2. How can we achieve this function call? "Call chaining using -> operator"
 //	object.add()->subtract()->multiply();
 class Dummy2{
@@ -131,8 +126,7 @@ public:
 	}
 	Compiler wii create temp location and make shallow copy and return its address.
  */
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //3. To assure that the size of object of a class is the size of its data members
 class Dummy4{
 private:
@@ -158,8 +152,7 @@ public:
 		this->num2 = num2;
 	}
 };
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //4. Padding in calsses as in structures to make memory aligned
 class Dummy5{
 private:
@@ -173,8 +166,7 @@ public:
 		firstEmpty++;
 	}
 };
-/*******************************************************************************/
-/*******************************************************************************/
+/****************************************************************************************************************************************/
 //5. Static members, and how all objects see its memory location
 class Dummy6{
 private:
@@ -194,26 +186,20 @@ public:
 	}
 };
 
-uint32_t Dummy6::callCount = 0;		//:: is called scope resolution operator, to indicate
-									//that the next member belongs to scope of class of type Dummy6
+uint32_t Dummy6::callCount = 0;		//:: is called scope resolution operator, to indicate that the next member belongs to scope of class of type Dummy6
 									//- I can't initialize static member during declaration
 
-/*******************************************************************************/
-/*******************************************************************************/
-//6. Defining static members with different ways of defining a class:
+/****************************************************************************************************************************************/
+//6. Problems when defining static members with different ways of defining a class:
 //Differernt ways of defineing a class:
 //	1. Define the class in shared file. (As all the previous example, and it worked)
 //  2. Create a header file and create the class there (has the problem of redefination of the static member)
 //  3. Create a header file and source file. Header file -> Declaration, source file -> Defination (More professional)
-
-/*******************************************************************************/
-/*******************************************************************************/
-
+/****************************************************************************************************************************************/
 
 int main() {
 	std::cout<<"starting...\n";
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//1. Example1 to explain this pointer:
 
 	//Before and after function call, context switching occurs.
@@ -228,12 +214,13 @@ int main() {
 
 	Dummy DummyObj1;
 	ptr2DummyObj1 = &DummyObj1;
+
 	//Assembly of next line:
 	/*
 	 	lea     -0x4(%rbp),%rax
 		mov     $0x22,%r8d
 		mov     $0x11,%edx
-		mov     %rax,%rcx					//This is addition mov instruction
+		mov     %rax,%rcx					//This is an addition mov instruction
 		call    0x7ff6485f2770 <_ZN5Dummy3sumEii>
 	 */
 	//from the previous, when calling function in class, compiler add 1 more parameter
@@ -241,8 +228,7 @@ int main() {
 	//	XXXX = value in rax register (0x9dd25ff76c) which is the same as ptr2DummyObj1
 	//	So the copiler passes the address of the object = This pointer
 	DummyObj1.sum(0x11, 0x22);
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//2. How can we achieve this function call? "Call chaining using -> operator"
 	//	object.add()->subtract()->multiply();
 	Dummy2 Dummy2Obj1(1,2);
@@ -253,19 +239,14 @@ int main() {
 	Dummy3 Dummy3Obj1(1,2);
 	Dummy3Obj1.add().subtract().multiply();
 	std::cout<<Dummy3Obj1.getAccumulator()<<"\n";
-	/*******************************************************************************/
-	/*******************************************************************************/\
+	/****************************************************************************************************************************************/
 	//3. To assure that the size of object of a class is the size of its data members
 	Dummy4 Dummy4Obj1;		//Size of this object is 8 bytes (in stack for its 2 datamembers)
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//4. Padding in calsses as in structures to make memory aligned
-	Dummy5 Dummy5Obj1;		//Size of this object is 16 bytes = 4 [firstEmpty], + 4 [padding]
-	// + 8 [arr].
+	Dummy5 Dummy5Obj1;		//Size of this object is 16 bytes = 4 [firstEmpty], + 4 [padding] + 8 [arr].
 	// Padding is made to make data aligned in memory.
-
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//5. Static members, and how all objects see its memory location
 	Dummy6 *Dummy6Obj1 = new Dummy6();
 	Dummy6Obj1->getCount();
@@ -273,19 +254,16 @@ int main() {
 	Dummy6Obj1->getCount();
 	Dummy6Obj1->getCount();
 	delete Dummy6Obj1;
-	//- here even after deleteing the allocated class, the count will continue, with the
-	//  Dummy6Obj2 created below
+	//- here even after deleteing the allocated class, the count will continue, with the Dummy6Obj2 created below
 	Dummy6 Dummy6Obj2;
 	Dummy6Obj2.getCount();
 	Dummy6Obj2.getCount();
 	Dummy6Obj2.getCount();
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//6. Problems when defining static members with different ways of defining a class:
 	Dymmy7 Dummy7Obj1;
 	Dummy7Obj1.getCount();
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//7. Different between size of class with static variable and non static variable
 	Dummy8 Dummy8Obj1;
 	Dummy9 Dummy9Obj1;
@@ -293,14 +271,12 @@ int main() {
 	Dummy9Obj1.func();		//1 byte, min size stored for empty class.
 							// Remember, static members are stored in .data and not related to object
 							// but to class itself.
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//8. Static member functions access without careating any object (reserve any memory space)
 	//	- Static members has no access to this pointer, so if the class has a variable, I can't
 	//		use it inside the static member function due to that.
 	std::cout<<"Dummy10 add result: "<< Dummy10::add(1, 2)<<"\n";
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//9. Question:
 	//		Design a class where only one object (an instance of the class) at a time can be
 	//		created. In other words, only one object of this class can be used across all other
@@ -312,14 +288,12 @@ int main() {
 	std::cout<<"Dummy11 add result: "<< Dummy11Obj1.add(1, 3)<<"\n";
 	//Dummy11 Dummy11Obj2;					[Gives error, since the default constructor is private]
 	//Dummy11 Dummy11Obj2 =  Dummy11Obj1;	[Gives error, since the copy constructor is private/deleted]
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//10. Friend functions
 	//- Note: friend functions has no access to this pointer, so we pass object by reference
 	Dummy12 Dummy12Obj1;
 	display(Dummy12Obj1);
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	//11. Friend class: 2 approaches
 	//1. Make the class friend: Not good, cuz this class can access every thing in the 1st class
 	Dummy16 Dummy16Obj1;
@@ -329,8 +303,7 @@ int main() {
 	Dummy14 Dummy14Obj1;
 	Dummy13 Dummy13Obj1;
 	Dummy13Obj1.display13(Dummy14Obj1);
-	/*******************************************************************************/
-	/*******************************************************************************/
+	/****************************************************************************************************************************************/
 	return 0;
 }
 

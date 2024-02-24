@@ -14,6 +14,8 @@ private:
 	int data1;
 	int data2;
 	int data3;
+protected:
+	int data4;
 public:
 	Dummy12();	//Constructor
 };
