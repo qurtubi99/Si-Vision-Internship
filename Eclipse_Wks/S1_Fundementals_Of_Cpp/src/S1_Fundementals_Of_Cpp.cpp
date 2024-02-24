@@ -12,11 +12,11 @@
 
 /****************************************************************************************************************************************/
 //0. Differnece between NULL in c and nullptr in CPP:
-// 	null in c is ((void*)0) so I can say x = NULL + 1; and now x = 1;
-// 	nullptr in cpp is:
+// 	- NULL in c is ((void*)0) so I can say x = NULL + 1; and now x = 1;
+// 	- nullptr in cpp is:
 //		- built in (no need to include iosteram)
-//		- Can only be used with pointer (otherwise compiler error)
-//		- namespace std has nullptr_t type (I can say nullptr_t a = nullptr)
+//		- Can only be used with pointer (otherwise compiler error [compile time check])
+//		- namespace std has nullptr_t type (I can say nullptr_t a = nullptr;)
 
 /****************************************************************************************************************************************/
 //1. Local vs Global Variables
@@ -49,28 +49,30 @@ void func2() {
 	- L-Values are objects that occupies some identifiable location in memory
 	- R-Values are object that have no identifiable memory location
  */
-int i = 10; 		// "i" has an identifiable memory location, while 10 is not "R-value"
-int *ptr = &i;		// "i" can be modified
+int i = 10; 			// "i" has an identifiable memory location "L-value", while 10 is not "R-value"
+int *ptr = &i;			// "i" can be modified
 //int i = sum(10,1);	// “sum(10,1)” has no memory location, i.e. its value cannot be modified.
 
 /****************************************************************************************************************************************/
 //4. Reference:
 /*
-	- Reference variables don’t allocate new memory space, but share the same memory location of the RHS variable
+	- Reference variables don’t allocate new memory space, but share the same memory location of the RHS variable[L-value]
 	- Better than pointer:
 		- Differentiate between ptr to int and to array of int (syntax difference)
 		- No need to check against null (less complex code)
-		- No ownership problem (delete the passed pointer after using it if it points to dynamically allocated space in heap or not)
+		- No ownership problem (delete the received pointer after using it if it points to dynamically allocated space in heap or not)
  */
-//const gurantee that if R-value is passed, Its temporary memory location will not be destroyed till the end of the function.
+//const guarantee that if R-value is passed, Its temporary memory location in memory will not be destroyed till the end of the function.
 int& accumlate (const int &x,const int &y) {
 	static int accumlator = 0;
 	accumlator += x + y;
 	return accumlator;
 }
+//Receiving pointer [address of variable] by reference
 void func4(int *&param){
 	std::cout<<*param<<"\n";
 }
+//Receiving array of 10 elements by reference.
 void foo(int (&x)[10]){
 	std::cout<< "Element 5 in the passed array by reference: "<<x[4]<<"\n";
 }
@@ -106,10 +108,10 @@ void foo(int (&x)[10]){
 		- App = functions.
 		- Problem: data members are not specific for certain functions, and any function in any module can use it.
 	OOP:
-		- Solve this problem and gurantee more maintainale and optimized design
-		- class == struction template, no memory reserved till an object/instance is created.
-		- Encapsulation: method members and data members in same class
-		- Abstraction: If app is big, divide it in to multiple classes, then create object with instances of all required classes.
+		- Solve this problem and guarantee more maintainable and optimized design
+		- class == Template, no memory reserved till an object/instance is created.
+		- Encapsulation: method members and data members in same class.
+		- Abstraction: If APP is big, divide it in to multiple classes, then create class with instances of all required classes.
  */
 
 /****************************************************************************************************************************************/
@@ -124,7 +126,7 @@ int main() {
 		func2();
 		func2();
 	}
-
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//4. Reference:
 	{
@@ -149,6 +151,7 @@ int main() {
 		std::cout<<"4. Reference foo calling: \n";
 		int x1[10] = {1,2,3,4,13,6};
 		foo(x1);
+		std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	}
 
 	/****************************************************************************************************************************************/
