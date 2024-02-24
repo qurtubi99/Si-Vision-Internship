@@ -199,10 +199,12 @@ public:
 //7. Overloading operators for operands of different types: Database and Dummy2 classes
 class Dummy1;
 class Dummy2;
+int operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
 
 class Dummy1{
 private:
 	int num=20;
+public:
 	friend operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
 	~Dummy1(){
 		std::cout << "Destructor of Dummy1 is called\n\n";
@@ -212,8 +214,8 @@ private:
 class Dummy2{
 private:
 	int num=40;
-	friend operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
 public:
+	friend operator+(const Dummy1 &Dummy1Obj1,const Dummy2 &Dummy2Obj1);
 	~Dummy2(){
 		std::cout << "Destructor of Dummy2 is called\n\n";
 	}
@@ -255,17 +257,14 @@ public:
 	Container1(int x) : num(x) {}
 private:
 	int num = 10;
-	friend int operator+(const Container1& c1,
-			const Container2& c2);
+	friend int operator+(const Container1& c1,const Container2& c2);
 };
 class Container2 {
 private:
 	int num = 20;
-	friend int operator+(const Container1& c1,
-			const Container2& c2);
+	friend int operator+(const Container1& c1, const Container2& c2);
 };
-int operator+(const Container1& c1,
-		const Container2& c2) {
+int operator+(const Container1& c1, const Container2& c2) {
 	return c1.num + c2.num;
 }
 
@@ -287,8 +286,10 @@ int operator+(const Container1& c1,
 //10. Input/Output Operators Overloading
 //[Example 1]
 std::ostream& operator<<(std::ostream &out,const MyString &other){
-	out<<other.literals;	//The array of characters/pointer "literals" is a primitave data type that is defined in one of the operator<<
+	out<<other.literals;
+	//The array of characters/pointer "literals" is a primitave data type that is defined in one of the operator<<
 	// functions (cout.operator<<(const char* other))
+
 	return out;				//To be able to make call chaining (e.g. cout<<x<<x+2<<"hello";)
 }
 //[Example 2]
@@ -325,6 +326,7 @@ int main() {
 		std::cout << addOperands(10,10) << std::endl;
 		std::cout << addOperands("First","Second") << std::endl;
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//2. How the c++ deals with function overloading?
 	{
@@ -345,12 +347,13 @@ int main() {
 		//		A pointer will match a void pointer.
 		print3(10.5f);
 		print3(FIRST);
-		//	4. If no matches are found, C++ tries to find a match through user-defined conversion
+		//	4. If no matches are found, C++ tries to find a match through user-defined conversion (as in 9. Container1 c2 = 200 + Container2();)
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//3. How the compiler deals with function overloading and diffrentiate between functions with same name?
 	//	- To see the symbols (name/ID given by the compiler to each function, variable, ) in object file,  type the following in ubunto terminal/cmd:
-	//		$ nm S4_Basics_Of_OOP3.o | grep print
+	//		$ nm S4_Basics_Of_OOP3.o | grep "print"
 	//		nm	 -> will show all symbols in the given object file
 	//		|	 -> will pass o/p of the 1st command (nm S4_Basics_Of_OOP3.o) to 2nd one (grep print).
 	//		grep -> used to find all symbols with name print
@@ -363,6 +366,7 @@ int main() {
 			0000000000000217 T _Z6print3i
 			The compiler added _z# and (i or Pc) to original symbol name to diffrentiate between names of overloaded functions.
 	 */
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	/*4. Will this code compile?
 	 * 	1. 5.5 and 4.5 are double, hence 2 functions will match both availiable numeric types (int and float) -> error
@@ -390,18 +394,34 @@ int main() {
 
 
 	 */
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//5. Operator overloading: using operators with objects instead of using setters ang getters:
 	{
 		std::cout<<"5. Operator overloading: using operators with objects: \n";
 		MyString hello("hello");				//Parametrized constructor called better than MyString hello = "hello"; to avoid calling copy constructor for temp object, then parametrized constructor
+		MyString hello2 = "hello";
 		MyString world(" world");				//Parametrized constructor called
 		//hello + world >> hello.operator+(world) [literals(hello) + literals(world)]
-		MyString helloworld(hello + world);		//operator+ called. Then copy constructor upon return from operator+ if ROV disabled
+		MyString helloworld(hello + world);		//operator+ called. Then copy constructor upon return from operator+ if ROV disabled to copy returned object to helloworld
 		helloworld.print();
+
+		/*
+		 * Parametrized CTOR of hello
+		 * Parametrized CTOR of hello2
+		 * Parametrized CTOR of world
+		 * 	operator+ of MyString
+		 * 	Parametrized of CTOR of newObject
+		 * 	copy CTOR to copy returned temporary object to helloworld
+		 * 	Destructor of newObject. (return from operator+ completed)
+		 * helloworld.print();
+		 * destruction of other objects.
+		 *
+		 */
 	}
 	//To disable ROV optimization Right-click on project > select Properties > Go to C/C++ Build > Settings > Tool Settings > GCC C++ Compiler > Miscellaneous (or Clang C++ Compiler if you are using Clang).
 	//	>In the Other flags field, add -fno-elide-constructors at the end of the existing flags
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//6. Another example on operator overloading:
 	{
@@ -411,6 +431,7 @@ int main() {
 		MyString combined = name + age; 	//>>name.operator+(age); Here 97 is the askii of a
 		combined.print();
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//7. Overloading operators for operands of different types: Database and Dummy2 classes
 	{
@@ -420,14 +441,16 @@ int main() {
 		std::cout<<Dummy1Obj1+Dummy2Obj1<<"\n";
 
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//8. Empty arithmetic operators:
 	{
 		std::cout<<"8. Empty arithmetic operators: \n";
 		std::cout<<-Dummy3()<<"\n"<<+Dummy3()<<"\n";
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//9. Will this code compil?:
+	//9. Will this code compile?:
 	{
 		std::cout<<"9. Will this code compil?: \n";
 		Container1 c1 = Container1() + Container2();
@@ -436,6 +459,7 @@ int main() {
 		std::cout<<Container1() + Container2()<<"\n";
 		std::cout<<200 + Container2()<<"\n";
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//10. Input/Output Operators Overloading
 	/*
