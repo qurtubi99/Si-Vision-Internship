@@ -12,7 +12,7 @@
 /****************************************************************************************************************************************/
 //1. Assignment operator (difference between it and the copy constructor) & Rule of 3
 //Rule of 3: "This rule is only a programmer-guide rule."
-//	- Comiler by default generate default destructor, copy constructor and assignment operator,
+//	- Compiler by default generate default destructor, copy constructor and assignment operator,
 //	  so if I have defined any of these, hence most probably I make dynamic allocation in my code,
 //	  hence I should define the rest to avoid errors from shallow copy.
 class MyString{
@@ -145,7 +145,7 @@ public:
 	}
 };
 
-class TeamLeader:public Employee{
+class TeamLeader : public Employee{
 public:
 	//The compiler does the following >> TeamLeader():Employee(){}
 	TeamLeader(){
@@ -153,7 +153,7 @@ public:
 	}
 
 	//Delegation to call parametrized constructor instead of default
-	TeamLeader(const int age):Employee(age){
+	TeamLeader(const int age) : Employee(age){
 		std::cout << "Parametrized constructor of TeamLeader is called\n";
 	}
 
@@ -162,7 +162,7 @@ public:
 	}
 };
 /****************************************************************************************************************************************/
-//5. Function overridding (redifination) in inheritance: child class override function in parent class
+//5. Function overriding (redefinition) in inheritance: child class override function in parent class
 class Employee2{
 private:
 	int age;
@@ -171,7 +171,7 @@ public:
 		std::cout << "Default constructor of Employee2 is called\n";
 	}
 	Employee2(const int age):age(age){
-		std::cout << "Parametrized constructor of Employee2 is called\n";
+		std::cout << "Parameterized constructor of Employee2 is called\n";
 	}
 	void signIn(){
 		std::cout << "sigIn in Empolyee2 class " << age << "\n";
@@ -194,7 +194,7 @@ public:
 	}
 
 	//Delegation to call parametrized constructor instead of default
-	TeamLeader2(const int age):Employee2(age){
+	TeamLeader2(const int age) : Employee2(age){
 		std::cout << "Parametrized constructor of TeamLeader2 is called\n";
 	}
 	void signIn(){
@@ -218,42 +218,51 @@ int main() {
 		MyString MyStringObj3(MyStringObj2);	 		 //Copy constructor will create new location for literals in memory (heap)
 		MyStringObj3.print();
 		MyStringObj3 = MyStringObj2 = MyStringObj1;		 //Assignment operator will replace Ahmed with Mohamed, and I've already created heap loacation for MyStringObj2
-		// 1st Obj1>obj2 then obj2>obj1
+		// 1st Obj1>obj2 then obj2>obj3
 		MyStringObj1.print();
 		MyStringObj2.print();
 		MyStringObj3.print();
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//2.Inheritance: Can access public and protected directly inside child class scope
+	//	- Creating object of child: Default constructor of parent > Default constructor of child
+	//	- Destroy object of child : Destructor of child > Destructor of parent'
+	//	This is because the child depends on the parent, hence before it starts, all the parent stuff must be ready. Also upon destruction, the
+	//	parent must wait till the child object is detroyed due to same reason (if opposit occured, some problems may happen cuz the child depends
+	//	on parent not opposit). So always the parent surround its child :)
 	{
 		std::cout<< "2.Inheritance:\n";
 		Child ChildObj1;
-		//Now ChildObj1 created 3 memory locations for the 3 data members it inherit from parent.
-		//Default constructor of Parent > create its data members (and member init list),
-		//then Default constructor of Child > create its data members (and member init list),
+		//- Now ChildObj1 created 3 memory locations for the 3 data members it inherit from parent.
+		//- Default constructor of Parent > create its data members (and member init list),
+		//  then Default constructor of Child > create its data members (and member init list),
 		ChildObj1.print();	           //Print the data members of ChildObj1
 		ChildObj1.setPrivateNum(100);
 		ChildObj1.print();	           //Print the data members of ChildObj1
 	}								   //Destructor of child then parent
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//3.Delegation in inheritance (not exactly but same concept):
 	{
 		std::cout<< "3.Delegation in inheritance (not exactly but same concept):\n";
 		TeamLeader TeamLeaderObj1(50);
 	}
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
 	//4. Inheritance access specifiers:
 	/*
 	 * Public   : All members in parent are inherited with same access specifier
 	 * Protected: public in parent will be protected in child
-	 * Private  : All members in parent will be privaete in child.
+	 * Private  : All members in parent will be private in child.
 	 */
+	std::cout << "---------------------------------------------------------------------------------------------------------------------\n";
 	/****************************************************************************************************************************************/
-	//5. Function overridding (redifination) in inheritance: child class override function in parent class
+	//5. Function overriding (redefinition) in inheritance: child class override function in parent class
 	{
-		std::cout<< "5. Function overridding (redifination) in inheritance: child class override function in parent class\n";
+		std::cout<< "5. Function overriding (redefinition) in inheritance: child class override function in parent class\n";
 		TeamLeader2 TeamLeader2Obj1;
-		TeamLeader2Obj1.signIn();
+		TeamLeader2Obj1.signIn();		//Here, Compiler will call signIn function in child [TeamLeader2 class].
 	}
 	/****************************************************************************************************************************************/
 	return 0;
